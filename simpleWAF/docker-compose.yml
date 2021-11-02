@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:12.8
+    # command: --lower_case_table_names=1 # 대소문자 구분
+    container_name: postgres
+    environment:
+      - TZ=Asia/Seoul
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234qwer!
+      - POSTGRES_DB=jeongmindb
+    volumes:
+      - /home/jeongminoh/simplewafdb:/var/lib/postgresql/data
+    ports:
+      - 15432:5432
+      # - 8081:5432
+  go:  # 서비스 이름
+    container_name: go
+    build:
+      context: .
+    depends_on:
+      - "postgres"
+    ports: # 포트 매핑 외부:내부
+      - 8080:8080
+# volumes:
+#   dbdata:
