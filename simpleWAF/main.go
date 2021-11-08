@@ -1,9 +1,9 @@
 package main
 
 import (
-	"simpleWAF/policy/ipblock"
-	"simpleWAF/policy/log"
-	"simpleWAF/policy/usercustom"
+	"simplewaf-api/policy/ipblock"
+	"simplewaf-api/policy/log"
+	"simplewaf-api/policy/usercustom"
 
 	echo "github.com/labstack/echo"
 	middleware "github.com/labstack/echo/middleware"

@@ -3,25 +3,32 @@ version: '3.1'
 services:
   postgres:
     image: postgres:12.8
-    # command: --lower_case_table_names=1 # 대소문자 구분
     container_name: postgres
+    # networks:
+    #   - wafapi
     environment:
       - TZ=Asia/Seoul
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234qwer!
-      - POSTGRES_DB=jeongmindb
     volumes:
       - /home/jeongminoh/simplewafdb:/var/lib/postgresql/data
     ports:
-      - 15432:5432
-      # - 8081:5432
+      - 15432:5432 # 외부:내부
+    # 부팅할 때 자동실행
+    # restart: always
   go:  # 서비스 이름
     container_name: go
+    # networks:
+    #   - wafapi
     build:
-      context: .
+      context: . #현재 폴더에 있는 dockerfile을 의미
     depends_on:
       - "postgres"
     ports: # 포트 매핑 외부:내부
       - 8080:8080
-# volumes:
-#   dbdata:
+# networks:
+#   wafapi: # 네트워크 이름
+#     # bridge는 기본 네트워크 드라이버.
+#     # Bridge networks are usually used when your applications run in standalone containers that need to communicate. 
+#     # 브리지 네트워크는 일반적으로 응용 프로그램이 통신해야하는 독립 실행형 컨테이너에서 실행될 때 사용됩니다.
+#     driver: bridge

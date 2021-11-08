@@ -1,4 +1,4 @@
-module simpleWAF
+module simplewaf-api
 
 go 1.17
 

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"simpleWAF/middleware"
-	"simpleWAF/models"
+	"simplewaf-api/middleware"
+	"simplewaf-api/models"
 
 	echo "github.com/labstack/echo"
 	_ "github.com/lib/pq"

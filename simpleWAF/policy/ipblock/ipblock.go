@@ -1,12 +1,12 @@
 package ipblock
 
 import (
+	"errors"
 	"fmt"
-	"log"
 	"net/http"
 
-	"simpleWAF/middleware"
-	"simpleWAF/models"
+	"simplewaf-api/middleware"
+	"simplewaf-api/models"
 
 	echo "github.com/labstack/echo"
 	_ "github.com/lib/pq"
@@ -18,7 +18,6 @@ func GetPolicy(c echo.Context) error {
 
 	rows, err := db.Query("SELECT * FROM proxy_ipblock")
 	if err != nil {
-		log.Printf("DB ERRROR_IB1 : %v\n", err)
 		return err
 	}
 	defer rows.Close()
@@ -30,8 +29,7 @@ func GetPolicy(c echo.Context) error {
 
 		err := rows.Scan(&id, &ip, &policy)
 		if err != nil {
-			log.Printf("DB ERRROR_IB2 : %v\n", err)
-			return nil
+			return errors.New("DB ERROR2")
 		}
 		ips = append(ips, models.IPblock{
 			Id:     id,
@@ -50,8 +48,7 @@ func AddPolicy(c echo.Context) error {
 	policy := c.FormValue("policy")
 	_, err := db.Exec("INSERT INTO proxy_ipblock(ip, policy) VALUES($1, $2)", ip, policy)
 	if err != nil {
-		log.Printf("DB ERRROR_IB3 : %v\n", err)
-		return nil
+		return errors.New("DB ERROR")
 	}
 
 	return c.String(http.StatusOK, "SUCCESS!\n")
@@ -62,8 +59,7 @@ func DeletePolicy(c echo.Context) error {
 	id := c.Param("id")
 	_, err := db.Exec("DELETE FROM proxy_ipblock WHERE id=$1", id)
 	if err != nil {
-		log.Printf("DB ERRROR_IB4 : %v\n", err)
-		return nil
+		return errors.New("DB ERROR")
 	}
 	return c.String(http.StatusOK, "SUCCESS!\n")
 }

@@ -3,7 +3,6 @@ package middleware
 import (
 	"database/sql"
 	"fmt"
-	"log"
 
 	_ "github.com/lib/pq"
 )
@@ -16,7 +15,6 @@ func DbConnection() *sql.DB {
 	var err error
 	db, err = sql.Open("postgres", dbinfo)
 	if err != nil {
-		log.Printf("DB ERRROR(Connection) : %v\n", err)
 		return nil
 	}
 	return db
